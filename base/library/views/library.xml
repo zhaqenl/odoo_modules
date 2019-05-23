@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <!-- Borrower Search Filter -->
+    <record id="borrower_view_search" model="ir.ui.view">
+      <field name="name">borrower.search</field>
+      <field name="model">borrower</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="first_name"/>
+          <field name="last_name"/>
+        </search>
+      </field>
+    </record>
+
+    <!-- Borrower Tree View -->
+    <record id="borrower_view_tree" model="ir.ui.view">
+      <field name="name">borrower.tree</field>
+      <field name="model">borrower</field>
+      <field name="arch" type="xml">
+        <tree string="borrower_tree">
+          <field name="first_name"/>
+          <field name="last_name"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Borrower Form View -->
+    <record id="borrower_view_form" model="ir.ui.view">
+      <field name="name">borrower.form</field>
+      <field name="model">borrower</field>
+      <field name="arch" type="xml">
+        <form string="borrower_form">
+          <sheet>
+            <group name="group_top">
+              <group name="group_left">
+                <field name="first_name"/>
+                <field name="last_name"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Book Search Filter -->
+    <record id="book_view_search" model="ir.ui.view">
+      <field name="name">book.search</field>
+      <field name="model">book</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="title"/>
+          <field name="author"/>
+          <field name="days_allowed"/>
+        </search>
+      </field>
+    </record>
+
+    <!-- Book Tree View -->
+    <record id="book_view_tree" model="ir.ui.view">
+      <field name="name">book.tree</field>
+      <field name="model">book</field>
+      <field name="arch" type="xml">
+        <tree string="book_tree">
+          <field name="title"/>
+          <field name="author"/>
+          <field name="days_allowed" type="char"/>
+          <field name="year_published" type="char"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Book Form View -->
+    <record id="book_view_form" model="ir.ui.view">
+      <field name="name">book.form</field>
+      <field name="model">book</field>
+      <field name="arch" type="xml">
+        <form string="book_form">
+          <sheet>
+            <group name="group_top">
+              <group name="group_left">
+                <field name="title"/>
+                <field name="author"/>
+                <field name="days_allowed"/>
+                <field name="year_published"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Lending Search Filter -->
+    <record id="lending_view_search" model="ir.ui.view">
+      <field name="name">lending.search</field>
+      <field name="model">lending</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="first_name"/>
+          <field name="last_name"/>
+          <field name="book_count"/>
+        </search>
+      </field>
+    </record>
+
+    <!-- Lending Kanban View -->
+    <record id="lending_view_kanban" model="ir.ui.view">
+      <field name="name">lending.kanban</field>
+      <field name="model">lending</field>
+      <field name="arch" type="xml">
+        <kanban>
+          <templates>
+            <t t-name="kanban-box">
+              <div class="oe_kanban_vignette">
+                <img src="/library/static/description/icon.png"
+                     class="oe_kanban_image" />
+                <div class="oe_kanban_details">
+                  <h4>
+                    <a type="open">
+                      <field name="borrower" />
+                    </a>
+                  </h4>
+                  <ul>
+                    <li><field name="book_count_kanban" /></li>
+                  </ul>
+                  <field name="kanban_state"
+                         widget="kanban_state_selection"/>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <!-- Lending Tree View -->
+    <record id="lending_view_tree" model="ir.ui.view">
+      <field name="name">lending.tree</field>
+      <field name="model">lending</field>
+      <field name="arch" type="xml">
+        <tree string="lending_tree">
+          <field name="borrower"/>
+          <field name="book_count" type="char"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Lending Form View -->
+    <record id="lending_view_form" model="ir.ui.view">
+      <field name="name">lending.form</field>
+      <field name="model">lending</field>
+      <field name="arch" type="xml">
+        <form string="lending_form">
+          <sheet>
+            <group name="group_top">
+              <group name="group_left">
+                <field name="borrower"/>
+              </group>
+              <group name="group_right">
+                <field name="date"/>
+              </group>
+            </group>
+            <group name="group_bottom">
+              <group name="group_left">
+                <field name="book">
+                  <tree string="Custom tree" editable="bottom">
+                    <field name="title"/>
+                    <field name="days_allowed" type="char" readonly="1"/>
+                    <field name="expected_date"/>
+                  </tree>
+                </field>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Borrower Action -->
+    <record id="borrower_action_form" model="ir.actions.act_window">
+      <field name="name">Borrower List View</field>
+      <field name="res_model">borrower</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Book Action -->
+    <record id="book_action_form" model="ir.actions.act_window">
+      <field name="name">Book List View</field>
+      <field name="res_model">book</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Lending Action -->
+    <record id="lending_action_form" model="ir.actions.act_window">
+      <field name="name">Book Lending List View</field>
+      <field name="res_model">lending</field>
+      <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <!-- Menu Item(s) -->
+    <menuitem id="library_parent_id" name="Library"/>
+    <menuitem id="library_id" name="Library" parent="library_parent_id"/>
+    <menuitem id="borrower_id" name="Borrower" parent="library_id"
+              action="borrower_action_form"/>
+    <menuitem id="book_id" name="Book" parent="library_id"
+              action="book_action_form"/>
+    <menuitem id="lending_id" name="Lending" parent="library_id"
+              action="lending_action_form"/>
+
+  </data>
+</openerp>
