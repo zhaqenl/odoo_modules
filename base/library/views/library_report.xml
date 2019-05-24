@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <!-- Library Report -->
+    <report id="report_Library_action"
+            string="Library"
+            model="lending"
+            report_type="qweb-pdf"
+            name="library.report_library_template" />
+
+    <!-- Link for Process Report (for connection to book model -->
+    <report id="report_Process_action"
+            string="Process"
+            model="process"
+            report_type="qweb-pdf"
+            name="library.report_process_template" />
+
+    <!-- Template body -->
+    <template id="report_library_template">
+      <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+          <t t-call="report.external_layout">
+            <div class="page">
+              <table class="table table-condensed">
+                <tr>
+                  <td>
+                    <strong>Borrower: </strong>
+                    <span t-field="o.borrower" />
+                  </td>
+                  <td>
+                    <strong>Date Borrowed: </strong>
+                    <span t-field="o.date" />
+                  </td>
+                </tr>
+              </table>
+              <table class="table table-condensed" style="margin-top:30px;">
+                <td style="width:20%;">
+                  <strong>Books borrowed</strong>
+                </td>
+                <td>
+                  <table class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <th style="width:20%;">Title</th>
+                        <th style="width:50%;">Days allowed to be borrowed</th>
+                        <th style="width:30%;">Expected date of return</th>
+                      </tr>
+                    </thead>
+                    <tbody class="invoice_tbody">
+                      <tr t-foreach="o.book" t-as="l">
+                        <td style="width:20%;"><span t-field="l.title" /></td>
+                        <td style="width:50%;"><span t-field="l.days_allowed" /></td>
+                        <td style="width:30%;"><span t-field="l.expected_date" /></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </table>
+            </div>
+          </t>
+        </t>
+      </t>
+    </template>
+
+  </data>
+</openerp>

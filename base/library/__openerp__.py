@@ -1,7 +1,8 @@
 {
     'author':  'Raymund Martinez',
     'depends': ['base'],
-    'data': ['views/library.xml'],
+    'data': ['views/library.xml',
+             'views/library_report.xml'],
     'name': "Library",
     'description': '''This is a library module''',
     'summary': """Create books and borrowers, then lend them""",
