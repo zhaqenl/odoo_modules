@@ -4,7 +4,7 @@
 
 from openerp import models, fields, api
 # from logging import getLogger
-# _log = logging.getLogger(__name__)
+# _log = getLogger(__name__)
 
 
 class SaleDiscount(models.Model):
@@ -43,17 +43,11 @@ class InvoiceDiscount(models.Model):
                                       ('rate', 'Rate'),
                                       ('fixed', 'Fixed')],
                                      "Discount Type",
-                                     default=(lambda self:
-                                              self.env['sale.order'].search([]).
-                                              discount_type))
+                                     compute="_compute_type")
     discount_rate = fields.Float("Discount Rate",
-                                 default=(lambda self:
-                                          self.env['sale.order'].search([]).
-                                          discount_rate))
+                                 compute="_compute_rate")
     fixed_amount = fields.Float("Fixed Amount",
-                                default=(lambda self:
-                                         self.env['sale.order'].search([]).
-                                         fixed_amount))
+                                compute="_compute_amount")
 
     @api.onchange("discount_type", "discount_rate", "fixed_amount")
     def _compute_discount(self):
@@ -69,3 +63,15 @@ class InvoiceDiscount(models.Model):
                 rec.discount = self.discount_rate
             else:
                 rec.discount = 0.00
+
+    def last_record(self):
+        return self.env['sale.order'].search([])[0]
+
+    def _compute_type(self):
+        self.discount_type = self.last_record().discount_type
+
+    def _compute_rate(self):
+        self.discount_rate = self.last_record().discount_rate
+
+    def _compute_amount(self):
+        self.fixed_amount = self.last_record().fixed_amount
