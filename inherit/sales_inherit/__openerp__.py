@@ -1,7 +1,8 @@
 {
     'author':  'Raymund Martinez',
     'depends': ['sale'],
-    'data': ['views/sales_inherit.xml'],
+    'data': ['views/sales_inherit.xml',
+             'views/sales_report.xml'],
     'name': "Sales Inherit Module",
     'description': '''Sales Inherit Module''',
     'summary': """Sales Inherit Module""",

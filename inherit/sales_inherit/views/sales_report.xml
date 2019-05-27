@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <template id="report_sale_template" inherit_id="sale.report_saleorder_document">
+      <xpath expr="//table[@class='table table-condensed']" position="after">
+        <div>
+          <strong>
+            Discount Type:
+          </strong>
+          <span t-field="o.discount_type" />
+        </div>
+        <div t-if="o.discount_type == 'rate'">
+          <strong>Discount Rate: </strong>
+          <span t-field="o.discount_rate" />
+        </div>
+        <div t-if="o.discount_type == 'fixed'">
+          <strong>Fixed Amount: </strong>
+          <span t-field="o.fixed_amount" />
+        </div>
+      </xpath>
+    </template>
+
+  </data>
+</openerp>

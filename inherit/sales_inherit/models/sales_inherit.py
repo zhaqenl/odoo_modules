@@ -43,35 +43,20 @@ class InvoiceDiscount(models.Model):
                                       ('rate', 'Rate'),
                                       ('fixed', 'Fixed')],
                                      "Discount Type",
-                                     compute="_compute_type")
+                                     compute="_compute_discount_type")
     discount_rate = fields.Float("Discount Rate",
-                                 compute="_compute_rate")
+                                 compute="_compute_discount_rate")
     fixed_amount = fields.Float("Fixed Amount",
-                                compute="_compute_amount")
-
-    @api.onchange("discount_type", "discount_rate", "fixed_amount")
-    def _compute_discount(self):
-        for rec in self:
-            line_amount = len(rec.invoice_line)
-
-        for rec in self.invoice_line:
-            d_type = self.discount_type
-            if d_type == "fixed":
-                rec.discount = ((self.fixed_amount / line_amount)
-                                / (rec.price_unit * rec.quantity) * 100)
-            elif d_type == "rate":
-                rec.discount = self.discount_rate
-            else:
-                rec.discount = 0.00
+                                compute="_compute_fixed_amount")
 
     def last_record(self):
         return self.env['sale.order'].search([])[0]
 
-    def _compute_type(self):
+    def _compute_discount_type(self):
         self.discount_type = self.last_record().discount_type
 
-    def _compute_rate(self):
+    def _compute_discount_rate(self):
         self.discount_rate = self.last_record().discount_rate
 
-    def _compute_amount(self):
+    def _compute_fixed_amount(self):
         self.fixed_amount = self.last_record().fixed_amount
