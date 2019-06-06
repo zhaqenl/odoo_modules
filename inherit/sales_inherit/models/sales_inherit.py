@@ -39,24 +39,18 @@ class InvoiceDiscount(models.Model):
     """Model containing discount-related fields for Invoice
     """
     _inherit = "account.invoice"
+    sale_order_api = fields.Many2one("sale.order",
+                                     compute="_get_sales_order")
     discount_type = fields.Selection([('none', 'None'),
                                       ('rate', 'Rate'),
                                       ('fixed', 'Fixed')],
                                      "Discount Type",
-                                     compute="_compute_discount_type")
+                                     related="sale_order_api.discount_type")
     discount_rate = fields.Float("Discount Rate",
-                                 compute="_compute_discount_rate")
+                                 related="sale_order_api.discount_rate")
     fixed_amount = fields.Float("Fixed Amount",
-                                compute="_compute_fixed_amount")
+                                related="sale_order_api.fixed_amount")
 
-    def last_record(self):
-        return self.env['sale.order'].search([])[0]
-
-    def _compute_discount_type(self):
-        self.discount_type = self.last_record().discount_type
-
-    def _compute_discount_rate(self):
-        self.discount_rate = self.last_record().discount_rate
-
-    def _compute_fixed_amount(self):
-        self.fixed_amount = self.last_record().fixed_amount
+    def _get_sales_order(self):
+        self.sale_order_api = self.env['sale.order'].search([('name', '=',
+                                                              self.origin)])
